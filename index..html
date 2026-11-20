@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днем Рождения! ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: #000;
+        }
+
+        /* ЭКРАН 1: Черный фон, виньетка и неоновое сердце */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #1a0005 0%, #000000 75%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .heart-container {
+            position: relative;
+            cursor: pointer;
+            animation: heartbeat 1.3s infinite ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Само сердце через SVG для идеального неона */
+        .neon-heart {
+            width: 220px;
+            height: 220px;
+            fill: #ff003c;
+            filter: drop-shadow(0 0 15px #ff003c) drop-shadow(0 0 35px #ff003c) drop-shadow(0 0 60px #ff003c);
+            transition: transform 0.6s ease;
+        }
+
+        .click-text {
+            position: absolute;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            margin-top: -10px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.12); }
+            40% { transform: scale(0.98); }
+            60% { transform: scale(1.15); }
+        }
+
+        /* Анимация раскрытия при клике */
+        .heart-expand .neon-heart {
+            transform: scale(25);
+        }
+        .heart-expand .click-text {
+            opacity: 0;
+        }
+
+        /* ЭКРАН 2: Белый фон с поздравлением и фото */
+        #main-content {
+            display: none;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #333;
+            position: relative;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        /* Летающие сердечки и поцелуи на фоне */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-item {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            opacity: 0.6;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Контейнер для текста и фото */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 240, 245, 0.85);
+            backdrop-filter: blur(5px);
+            border: 2px solid #ffc2d1;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #ff1e56;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .message-text {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #444;
+            white-space: pre-line; /* Сохраняет твои абзацы */
+            text-align: left;
+        }
+
+        /* Галерея фотографий */
+        .gallery-title {
+            color: #ff1e56;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .photo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border: 4px solid #fff;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ПЕРВЫЙ ЭКРАН (СЕРДЦЕ) -->
+    <div id="intro-screen">
+        <div class="heart-container" onclick="openCard()">
+            <svg class="neon-heart" viewBox="0 0 32 29.6">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+            </svg>
+            <span class="click-text">Нажми</span>
+        </div>
+    </div>
+
+    <!-- ВТОРОЙ ЭКРАН (ПОЗДРАВЛЕНИЕ И ФОТО) -->
+    <div id="main-content">
+        <div class="floating-bg" id="floating-bg"></div>
+
+        <div class="content-wrapper">
+            <div class="card">
+                <!-- ========================================== -->
+                <!-- 1. ЗАГОЛОВОК ПОЗДРАВЛЕНИЯ МЕНЯТЬ ТУТ:      -->
+                <!-- ========================================== -->
+                <h1>С Днём Рождения, моя любимая чмоня! ❤️</h1>
+                
+                <!-- ========================================== -->
+                <!-- 2. ТВОЙ ТЕКСТ ПОЗДРАВЛЕНИЯ ВСТАВЛЯТЬ ТУТ:   -->
+                <!-- ========================================== -->
+                <div class="message-text">
+                    Ну вот и наступил твой 16-й день рождения. Хочу поздравить тебя с этим днем! Ты — самое прекрасное, что со мной случалось и еще случится.
+Мы пережили с тобой уже столько всего: проходили через трудности, сталкивались с препятствиями, бывало, что и ссорились. Но несмотря ни на что, мы вместе, и это делает нас только сильнее. Я тебя очень люблю. Люблю за твою прямоту, за твою невероятную улыбку, за то, что ты такая игривая, и за то, что готова быть со мной всегда. Люблю тебя, тупой, пххп.
+В кино часто показывают идеальные, киношные отношения, но наша с тобой история намного круче. Знаешь, как в «Дневнике памяти» Ной сказал Элли: «Это будет нелегко. Это будет очень трудно. Нам придется работать над этим каждый день, но я хочу этого, потому что я хочу тебя. Всю тебя, навсегда, каждый день». Вот у нас примерно так же — пусть не всегда гладко, зато по-настоящему. И мне не нужны никакие другие варианты, потому что, как говорил герой фильма «Когда Гарри встретил Салли»: «Когда понимаешь, что хочешь провести остаток жизни с кем-то, ты хочешь, чтобы остаток жизни начался как можно скорее». А наш с тобой «остаток жизни» только начинается, и впереди еще куча всего.
+Хочу пожелать тебе в твои 16 побольше настоящего счастья, чтобы поводов для твоей улыбки было с каждым днем все больше, и, конечно, побольше денег. Желаю круто закончить школу, стать настоящей бизнес-вумен и быть очень богатой — чтобы ты могла позволить себе всё, что захочешь, и даже больше. Крепкого тебе здоровья и бесконечного количества счастливых моментов, которые мы обязательно разделим вместе.
+Шестнадцать лет — прекрасный старт,
+В глазах горит живой азарт.
+Пусть сбудется любая цель,
+Откроется к успеху дверь.
+За смех, за дерзость, за тепло
+Спасибо, что мне так свезло.
+Будь счастлива, люби, сияй
+И весь мир смело покоряй!
+                </div>
+            </div>
+
+            <h2 class="gallery-title">Наши лучшие моменты 📸</h2>
+            
+            <!-- ========================================== -->
+            <!-- 3. ВАШИ ФОТКИ ПРИКРЕПЛЯТЬ ТУТ:             -->
+            <!-- Названия должны совпадать с файлами в папке-->
+            <!-- ========================================== -->
+            <div class="photo-grid">
+                <img src="1000030129.jpg" alt="Наше фото 1">
+                <img src="IMG_0668.jpg" alt="Наше фото 2">
+                <img src="IMG_7322.jpg" alt="Наше фото 3">
+                 <img src="IMG_7952.jpg" alt="Наше фото 4">
+                <img src="IMG_8756.jpg" alt="Наше фото 5">
+                <img src="IMG_7875.jpg" alt="Наше фото 6">
+                 <img src="IMG_9873.jpg" alt="Наше фото 7">
+                <img src="telegram-photo-0-5327830240211967541.jpg" alt="Наше фото 8">
+                
+                <!-- Если фоток больше, просто скопируй строчку выше и поменяй цифру -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            const intro = document.getElementById('intro-screen');
+            const main = document.getElementById('main-content');
+            
+            // Запускаем анимацию увеличения сердца
+            intro.classList.add('heart-expand');
+            
+            setTimeout(() => {
+                intro.style.opacity = '0';
+                main.style.display = 'block';
+                startFloatingElements();
+                
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                }, 800);
+            }, 400);
+        }
+
+        // Генератор летающих сердечек и поцелуев
+        function startFloatingElements() {
+            const bg = document.getElementById('floating-bg');
+            const emojis = ['💗', '💋', '💖', '💕', '❤️', '😘'];
+            
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.classList.add('floating-item');
+                item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 3 + 4) + 's'; // от 4 до 7 секунд
+                item.style.fontSize = (Math.random() * 15 + 18) + 'px';
+                
+                bg.appendChild(item);
+                
+                // Удаляем элемент после завершения анимации, чтобы телефон не лагал
+                setTimeout(() => {
+                    item.remove();
+                }, 7000);
+            }, 350);
+        }
+    </script>
+</body>
+</html>
